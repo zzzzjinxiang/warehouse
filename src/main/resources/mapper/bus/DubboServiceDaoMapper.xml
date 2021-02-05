@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeqifu.bus.mapper.DubboServiceDao">
+  <resultMap id="BaseResultMap" type="com.yeqifu.bus.vo.DubboServiceDo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="STU_NAME" jdbcType="VARCHAR" property="stuName" />
+    <result column="STU_AGE" jdbcType="VARCHAR" property="stuAge" />
+    <result column="STU_SCORE" jdbcType="VARCHAR" property="stuScore" />
+    <result column="EC_STATUS" jdbcType="VARCHAR" property="ecStatus" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="MODIFY_TIME" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, STU_NAME, STU_AGE, STU_SCORE, EC_STATUS, CREATE_TIME, MODIFY_TIME
+  </sql>
+
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from dubbo_service
+    where STU_NAME = #{stuName,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dubbo_service
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from dubbo_service
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.yeqifu.bus.vo.DubboServiceDo" useGeneratedKeys="true">
+    insert into dubbo_service (STU_NAME, STU_AGE, STU_SCORE, 
+      EC_STATUS, CREATE_TIME, MODIFY_TIME
+      )
+    values (#{stuName,jdbcType=VARCHAR}, #{stuAge,jdbcType=VARCHAR}, #{stuScore,jdbcType=VARCHAR}, 
+      #{ecStatus,jdbcType=VARCHAR}, now(), now()
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.yeqifu.bus.vo.DubboServiceDo" useGeneratedKeys="true">
+    insert into dubbo_service
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stuName != null">
+        STU_NAME,
+      </if>
+      <if test="stuAge != null">
+        STU_AGE,
+      </if>
+      <if test="stuScore != null">
+        STU_SCORE,
+      </if>
+      <if test="ecStatus != null">
+        EC_STATUS,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stuName != null">
+        #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuAge != null">
+        #{stuAge,jdbcType=VARCHAR},
+      </if>
+      <if test="stuScore != null">
+        #{stuScore,jdbcType=VARCHAR},
+      </if>
+      <if test="ecStatus != null">
+        #{ecStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yeqifu.bus.vo.DubboServiceDo">
+    update dubbo_service
+    <set>
+      <if test="stuName != null">
+        STU_NAME = #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="stuAge != null">
+        STU_AGE = #{stuAge,jdbcType=VARCHAR},
+      </if>
+      <if test="stuScore != null">
+        STU_SCORE = #{stuScore,jdbcType=VARCHAR},
+      </if>
+      <if test="ecStatus != null">
+        EC_STATUS = #{ecStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yeqifu.bus.vo.DubboServiceDo">
+    update dubbo_service
+    set STU_NAME = #{stuName,jdbcType=VARCHAR},
+      STU_AGE = #{stuAge,jdbcType=VARCHAR},
+      STU_SCORE = #{stuScore,jdbcType=VARCHAR},
+      EC_STATUS = #{ecStatus,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MODIFY_TIME = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateServiceByStatus" parameterType="com.yeqifu.bus.vo.DubboServiceDo">
+    update dubbo_service
+    set STU_NAME = #{stuName,jdbcType=VARCHAR},
+      STU_AGE = #{stuAge,jdbcType=VARCHAR},
+      STU_SCORE = #{stuScore,jdbcType=VARCHAR},
+      EC_STATUS = #{ecStatus,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      MODIFY_TIME = NOW()
+    where STU_NAME = #{stuName,jdbcType=INTEGER}
+  </update>
+
+</mapper>

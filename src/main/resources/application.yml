@@ -1,11 +1,11 @@
-#配置数据源
+#配置数据�?
 spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/warehouse?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC&useSSL=false
+      url: jdbc:mysql://127.0.0.1:3306/trail?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
       username: root
-      password: 123456
+      password: rootroot
       max-active: 20
       max-wait: 5000
       initial-size: 1
@@ -24,7 +24,7 @@ spring:
         max-file-size: 1MB
         max-request-size: 10MB
 
-  #thymeleaf的配置
+  #thymeleaf的配�?
   thymeleaf:
     cache: false
     enabled: true
@@ -42,7 +42,7 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-#shiro的配置
+#shiro的配�?
 shiro:
   hash-algorithm-name: md5
   hash-iterations: 2

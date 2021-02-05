@@ -2,10 +2,12 @@ package com.yeqifu.bus.cache;
 
 import com.yeqifu.bus.entity.Customer;
 import com.yeqifu.bus.entity.Goods;
+import com.yeqifu.bus.vo.DubboServiceDo;
 import com.yeqifu.sys.cache.CachePool;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.BeanUtils;
@@ -43,6 +45,7 @@ public class BusinessCacheAspect {
     private static final String POINTCUT_CUSTOMER_GET="execution(* com.yeqifu.bus.service.impl.CustomerServiceImpl.getById(..))";
     private static final String POINTCUT_CUSTOMER_DELETE="execution(* com.yeqifu.bus.service.impl.CustomerServiceImpl.removeById(..))";
     private static final String POINTCUT_CUSTOMER_BATCHDELETE="execution(* com.yeqifu.bus.service.impl.CustomerServiceImpl.removeByIds(..))";
+    private static final String POINTCUT_CUSTOMER_INSERT="execution(* com.yeqifu.bus.service.impl.DubboServiceImpl.insertBean(..))";
 
     private static final String CACHE_CUSTOMER_PROFIX="customer:";
 
@@ -60,6 +63,17 @@ public class BusinessCacheAspect {
             CACHE_CONTAINER.put(CACHE_CUSTOMER_PROFIX + object.getId(),object);
         }
         return res;
+    }
+
+    @Around(value = POINTCUT_CUSTOMER_INSERT)
+    public Object cacheInsertBean(ProceedingJoinPoint joinPoint) throws Throwable {
+        //取出第一个参数
+        DubboServiceDo object = (DubboServiceDo) joinPoint.getArgs()[0];
+        Boolean res = joinPoint.proceed().equals(0)?true:false;
+        if (res){
+            CACHE_CONTAINER.put(CACHE_CUSTOMER_PROFIX + object.getStuName(),object);
+        }
+        return joinPoint.proceed();
     }
 
     /**
