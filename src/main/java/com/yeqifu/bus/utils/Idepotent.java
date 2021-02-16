@@ -62,7 +62,20 @@ public class Idepotent {
 
     public void compareJson(JSONObject a, JSONObject b, Set<String> set) {
         for(String key:a.keySet()){
-
+            if(a instanceof JSONObject) {
+                JSONObject aValue = a.getJSONObject(key);
+                JSONObject bValue = b.getJSONObject(key);
+                if(ObjectUtils.isEmpty(aValue) || ObjectUtils.isEmpty(bValue)) {
+                    logger.info("根路径为空，不相等");
+                    set.add(key);
+                } else {
+                    compareJson(aValue, bValue, set);
+                }
+            } else {
+                if(!a.getString(key).equals(b.getString(key))) {
+                    set.add(key);
+                }
+            }
         }
     }
 }
