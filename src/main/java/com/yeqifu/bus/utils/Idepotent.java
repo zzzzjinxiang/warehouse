@@ -14,6 +14,7 @@ public class Idepotent {
 
     Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
+    // 09c49f04cb6ed8a066a419a77d7a4c20eb196177-token
     public void checkIsTheSameOne(Object src, Object tar, Field[] fields) {
         if (!src.getClass().getCanonicalName().equals(tar.getClass().getCanonicalName())){
             // 比较两个对象类型，不一致则直接抛类型不一致异常
